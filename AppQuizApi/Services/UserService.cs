@@ -22,12 +22,15 @@ namespace AppQuizApi.Services
         {
             return _userRepository.ValidateUserExistence(user);
         }
+        public Task<bool> Login(User user)
+        {
+            return _userRepository.Login(user);
+        }
 
         public async Task<User> GetUserInfo(User user)
         {
             return await _userRepository.GetUserInfo(user);
         }
-
 
         public async Task<User> ValidatePassword(Int32 idUsuario, String passwordAnterior)
         {

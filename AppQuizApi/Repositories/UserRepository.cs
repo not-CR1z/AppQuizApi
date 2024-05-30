@@ -24,6 +24,11 @@ namespace AppQuizApi.Repositories
             return _context.Users.AnyAsync(u => u.UserName == user.UserName);
         }
 
+        public async Task<bool> Login(User user)
+        {
+            var userRegistered = await _context.Users.Where(x => x.UserName == user.UserName && x.Password==user.Password).FirstOrDefaultAsync();
+            return userRegistered != null ? true : false ;
+        }
         public async Task<User> GetUserInfo(User user)
         {
             var userSelected = await _context.Users.Where(x => x.UserName == user.UserName && x.Password == user.Password).Include(x => x.Avatar).FirstOrDefaultAsync();

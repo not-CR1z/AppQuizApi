@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AppQuizApi.Domain.Models
 {
@@ -8,11 +9,15 @@ namespace AppQuizApi.Domain.Models
         [Required]
         [StringLength(50)]
         public string Name { get; set; }
-        public string Description { get; set; }
         [Required]
         [StringLength(50)]
-        public Category Category { get; set; }
+        public string Description { get; set; }
+        public int CategoryId { get; set; }
+        [ForeignKey("CategoryId")]
+        public virtual Category? Category { get; set; }
         public int IdCreator { get; set; }
-        public List<Question> Questions { get; set; }
+        [ForeignKey("IdCreator")]
+        public User? Creator { get; set; }
+        public List<Question>? Questions { get; set; }
     }
 }

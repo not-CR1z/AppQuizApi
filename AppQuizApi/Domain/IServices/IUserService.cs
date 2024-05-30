@@ -5,8 +5,8 @@ namespace AppQuizApi.Domain.IServices
     public interface IUserService
     {
         Task SaveUser(User user);
-        Task<Boolean> ValidateExistence(User user);
-
+        Task<bool> ValidateExistence(User user);
+        Task<bool> Login(User user);
         Task<User> GetUserInfo(User user);
 
         //Pendientes

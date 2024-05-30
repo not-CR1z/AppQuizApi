@@ -11,6 +11,12 @@ namespace AppQuizApi.Services
         {
             _quizRepository = quizRepository; 
         }
+
+        public async Task AddQuiz(Quiz quiz)
+        {
+            await _quizRepository.AddQuiz(quiz);
+        }
+
         public async Task<List<Quiz>> GetQuizzes()
         {
             return await _quizRepository.GetQuizzes();

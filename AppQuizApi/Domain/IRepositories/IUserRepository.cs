@@ -10,6 +10,7 @@ namespace AppQuizApi.Domain.IRepository
 
         //Pendiente
         Task<User> ValidatePassword(Int32 id, String password);
+        Task<bool> Login(User user);
         Task UpdatePassword(User user);
     }
 }

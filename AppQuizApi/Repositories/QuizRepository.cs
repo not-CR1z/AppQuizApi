@@ -12,6 +12,12 @@ namespace AppQuizApi.Repositories
         {
             _context = context;
         }
+        public async Task AddQuiz(Quiz quiz)
+        {
+            _context.Quizzes.Add(quiz);
+            await _context.SaveChangesAsync();
+        }
+
         public async Task<List<Quiz>> GetQuizzes()
         {
             return await _context.Quizzes.ToListAsync();

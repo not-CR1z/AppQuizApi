@@ -12,11 +12,9 @@ namespace AppQuizApi.Controllers
     public class AppController : ControllerBase
     {
         private readonly IUserService _userService;
-        private readonly IQuizService _quizService;
-        public AppController(IUserService userService, IQuizService quizService)
+        public AppController(IUserService userService)
         {
             _userService = userService;
-            _quizService = quizService;
         }
 
         [HttpPost("addUser")]
@@ -43,14 +41,12 @@ namespace AppQuizApi.Controllers
         public async Task<IActionResult> Login(User user)
         {
             user.Password = AppUtilities.EncryptPassword(user.Password);
-            var userSelected = await _userService.GetUserInfo(user);
-            if (userSelected == null)
+            bool userSelected = await _userService.Login(user);
+            if (userSelected)
             {
-                return this.BadRequest(new { message = "Nombre de usuario o contaseña incorrectos" });
+                return Ok();
             }
-            var quizes = await _quizService.GetQuizzes();
-            userSelected.Password.Trim();
-            return Ok(new { userSelected, quizes });
+            return this.BadRequest(new { message = "Nombre de usuario o contaseña incorrectos" });
         }
 
         //[Route("CambiarPassword")]
