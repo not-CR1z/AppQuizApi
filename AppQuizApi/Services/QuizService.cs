@@ -21,5 +21,15 @@ namespace AppQuizApi.Services
         {
             return await _quizRepository.GetQuizzes();
         }
+
+        public async Task<List<Category>> GetCategories()
+        {
+            return await _quizRepository.GetCategories();
+        }
+
+        public Task AddQuestion(Question question)
+        {
+            return _quizRepository.AddQuestion(question);
+        }
     }
 }

@@ -5,28 +5,28 @@
 namespace AppQuizApi.Migrations
 {
     /// <inheritdoc />
-    public partial class Avatarnullable : Migration
+    public partial class AddQuestionConfigs : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Users_Avatar_AvatarId",
-                table: "Users");
+                name: "FK_Answers_Questions_QuestionId",
+                table: "Answers");
 
             migrationBuilder.AlterColumn<int>(
-                name: "AvatarId",
-                table: "Users",
+                name: "QuestionId",
+                table: "Answers",
                 type: "int",
                 nullable: true,
                 oldClrType: typeof(int),
                 oldType: "int");
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Users_Avatar_AvatarId",
-                table: "Users",
-                column: "AvatarId",
-                principalTable: "Avatar",
+                name: "FK_Answers_Questions_QuestionId",
+                table: "Answers",
+                column: "QuestionId",
+                principalTable: "Questions",
                 principalColumn: "Id");
         }
 
@@ -34,12 +34,12 @@ namespace AppQuizApi.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropForeignKey(
-                name: "FK_Users_Avatar_AvatarId",
-                table: "Users");
+                name: "FK_Answers_Questions_QuestionId",
+                table: "Answers");
 
             migrationBuilder.AlterColumn<int>(
-                name: "AvatarId",
-                table: "Users",
+                name: "QuestionId",
+                table: "Answers",
                 type: "int",
                 nullable: false,
                 defaultValue: 0,
@@ -48,10 +48,10 @@ namespace AppQuizApi.Migrations
                 oldNullable: true);
 
             migrationBuilder.AddForeignKey(
-                name: "FK_Users_Avatar_AvatarId",
-                table: "Users",
-                column: "AvatarId",
-                principalTable: "Avatar",
+                name: "FK_Answers_Questions_QuestionId",
+                table: "Answers",
+                column: "QuestionId",
+                principalTable: "Questions",
                 principalColumn: "Id",
                 onDelete: ReferentialAction.Cascade);
         }

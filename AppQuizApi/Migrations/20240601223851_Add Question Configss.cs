@@ -5,7 +5,7 @@
 namespace AppQuizApi.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdateQuizzzz : Migration
+    public partial class AddQuestionConfigss : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)

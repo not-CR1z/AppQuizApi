@@ -5,24 +5,18 @@
 namespace AppQuizApi.Migrations
 {
     /// <inheritdoc />
-    public partial class Namecorrection : Migration
+    public partial class FKsupdated : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
-                name: "Nombre",
-                table: "User",
-                newName: "Name");
+
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.RenameColumn(
-                name: "Name",
-                table: "User",
-                newName: "Nombre");
+
         }
     }
 }

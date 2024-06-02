@@ -1,9 +1,14 @@
-﻿namespace AppQuizApi.Domain.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace AppQuizApi.Domain.Models
 {
     public class Answer
     {
         public int Id { get; set; }
-        public int Name { get; set; }
+        public string Name { get; set; }
         public bool IsTrue { get; set; }
+        public int? QuestionId { get; set; }
+        [ForeignKey("QuestionId")]
+        public Question? Question { get; set; }
     }
 }

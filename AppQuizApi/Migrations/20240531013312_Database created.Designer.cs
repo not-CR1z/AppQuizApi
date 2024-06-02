@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppQuizApi.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    [Migration("20240530005648_Update Quiz Fields")]
-    partial class UpdateQuizFields
+    [Migration("20240531013312_Database created")]
+    partial class Databasecreated
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -39,14 +39,14 @@ namespace AppQuizApi.Migrations
                     b.Property<int>("Name")
                         .HasColumnType("int");
 
-                    b.Property<int?>("QuestionId")
+                    b.Property<int>("QuestionId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("QuestionId");
 
-                    b.ToTable("Answer");
+                    b.ToTable("Answers");
                 });
 
             modelBuilder.Entity("AppQuizApi.Domain.Models.Avatar", b =>
@@ -88,7 +88,7 @@ namespace AppQuizApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Category");
+                    b.ToTable("Categories");
                 });
 
             modelBuilder.Entity("AppQuizApi.Domain.Models.Question", b =>
@@ -102,14 +102,14 @@ namespace AppQuizApi.Migrations
                     b.Property<int>("Name")
                         .HasColumnType("int");
 
-                    b.Property<int?>("QuizId")
+                    b.Property<int>("QuizId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
 
                     b.HasIndex("QuizId");
 
-                    b.ToTable("Question");
+                    b.ToTable("Questions");
                 });
 
             modelBuilder.Entity("AppQuizApi.Domain.Models.Quiz", b =>
@@ -123,13 +123,13 @@ namespace AppQuizApi.Migrations
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
+                    b.Property<int>("CreatorId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
-
-                    b.Property<int>("IdCreator")
-                        .HasColumnType("int");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -139,6 +139,8 @@ namespace AppQuizApi.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
+
+                    b.HasIndex("CreatorId");
 
                     b.ToTable("Quizzes");
                 });
@@ -173,27 +175,43 @@ namespace AppQuizApi.Migrations
 
             modelBuilder.Entity("AppQuizApi.Domain.Models.Answer", b =>
                 {
-                    b.HasOne("AppQuizApi.Domain.Models.Question", null)
+                    b.HasOne("AppQuizApi.Domain.Models.Question", "Question")
                         .WithMany("Answers")
-                        .HasForeignKey("QuestionId");
+                        .HasForeignKey("QuestionId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Question");
                 });
 
             modelBuilder.Entity("AppQuizApi.Domain.Models.Question", b =>
                 {
-                    b.HasOne("AppQuizApi.Domain.Models.Quiz", null)
+                    b.HasOne("AppQuizApi.Domain.Models.Quiz", "Quiz")
                         .WithMany("Questions")
-                        .HasForeignKey("QuizId");
+                        .HasForeignKey("QuizId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Quiz");
                 });
 
             modelBuilder.Entity("AppQuizApi.Domain.Models.Quiz", b =>
                 {
                     b.HasOne("AppQuizApi.Domain.Models.Category", "Category")
-                        .WithMany()
+                        .WithMany("Quizzes")
                         .HasForeignKey("CategoryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("AppQuizApi.Domain.Models.User", "Creator")
+                        .WithMany("Quizzes")
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Category");
+
+                    b.Navigation("Creator");
                 });
 
             modelBuilder.Entity("AppQuizApi.Domain.Models.User", b =>
@@ -205,6 +223,11 @@ namespace AppQuizApi.Migrations
                     b.Navigation("Avatar");
                 });
 
+            modelBuilder.Entity("AppQuizApi.Domain.Models.Category", b =>
+                {
+                    b.Navigation("Quizzes");
+                });
+
             modelBuilder.Entity("AppQuizApi.Domain.Models.Question", b =>
                 {
                     b.Navigation("Answers");
@@ -213,6 +236,11 @@ namespace AppQuizApi.Migrations
             modelBuilder.Entity("AppQuizApi.Domain.Models.Quiz", b =>
                 {
                     b.Navigation("Questions");
+                });
+
+            modelBuilder.Entity("AppQuizApi.Domain.Models.User", b =>
+                {
+                    b.Navigation("Quizzes");
                 });
 #pragma warning restore 612, 618
         }

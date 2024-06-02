@@ -6,5 +6,7 @@ namespace AppQuizApi.Domain.IRepositories
     {
         Task<List<Quiz>> GetQuizzes();
         Task AddQuiz(Quiz quiz);
+        Task<List<Category>> GetCategories();
+        Task AddQuestion(Question question);
     }
 }

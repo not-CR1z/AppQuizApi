@@ -5,32 +5,30 @@
 namespace AppQuizApi.Migrations
 {
     /// <inheritdoc />
-    public partial class UpdateQuizFields : Migration
+    public partial class AddQuestionUpdatedName : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.AlterColumn<string>(
-                name: "Description",
-                table: "Quizzes",
-                type: "nvarchar(50)",
-                maxLength: 50,
+                name: "Name",
+                table: "Answers",
+                type: "nvarchar(max)",
                 nullable: false,
-                oldClrType: typeof(string),
-                oldType: "nvarchar(max)");
+                oldClrType: typeof(int),
+                oldType: "int");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AlterColumn<string>(
-                name: "Description",
-                table: "Quizzes",
-                type: "nvarchar(max)",
+            migrationBuilder.AlterColumn<int>(
+                name: "Name",
+                table: "Answers",
+                type: "int",
                 nullable: false,
                 oldClrType: typeof(string),
-                oldType: "nvarchar(50)",
-                oldMaxLength: 50);
+                oldType: "nvarchar(max)");
         }
     }
 }
