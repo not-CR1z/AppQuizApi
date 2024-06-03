@@ -32,5 +32,9 @@ namespace AppQuizApi.Repositories
             return await _context.Categories.ToListAsync();
         }
 
+        public async Task<List<Quiz>> GetQuizzesByUser(int userId)
+        {
+            return await _context.Quizzes.Where(x => x.CreatorId == userId).Include(x => x.Category).OrderDescending().ToListAsync();
+        }
     }
 }

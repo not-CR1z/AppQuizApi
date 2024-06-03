@@ -13,6 +13,8 @@ namespace AppQuizApi.Domain.Models
         [Required]
         [StringLength(50)]
         public string Password { get; set; }
+        public int AvatarId { get; set; }
+        [ForeignKey("AvatarId")]
         public Avatar? Avatar { get; set; }
     }
 }

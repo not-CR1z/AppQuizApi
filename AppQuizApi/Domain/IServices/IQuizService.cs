@@ -8,6 +8,7 @@ namespace AppQuizApi.Domain.IServices
         Task AddQuiz(Quiz quiz);
         Task<List<Category>> GetCategories();
         Task AddQuestion(Question question);
+        Task<List<Quiz>> GetQuizzesByUser(int userId);
 
     }
 }

@@ -12,24 +12,29 @@ namespace AppQuizApi.Services
             _quizRepository = quizRepository; 
         }
 
-        public async Task AddQuiz(Quiz quiz)
+        public Task AddQuiz(Quiz quiz)
         {
-            await _quizRepository.AddQuiz(quiz);
+            return _quizRepository.AddQuiz(quiz);
         }
 
-        public async Task<List<Quiz>> GetQuizzes()
+        public Task<List<Quiz>> GetQuizzes()
         {
-            return await _quizRepository.GetQuizzes();
+            return  _quizRepository.GetQuizzes();
         }
 
-        public async Task<List<Category>> GetCategories()
+        public  Task<List<Category>> GetCategories()
         {
-            return await _quizRepository.GetCategories();
+            return _quizRepository.GetCategories();
         }
 
         public Task AddQuestion(Question question)
         {
             return _quizRepository.AddQuestion(question);
+        }
+
+        public Task<List<Quiz>> GetQuizzesByUser(int userId)
+        {
+            return _quizRepository.GetQuizzesByUser(userId);
         }
     }
 }

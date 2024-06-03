@@ -38,5 +38,12 @@ namespace AppQuizApi.Controllers
             await _quizService.AddQuestion(question);
             return Ok(new { message = "La pregunta se ha agregado correctamente al examen"});
         }
+
+        [HttpPost("getQuizzesByUser")]
+        public async Task<IActionResult> GetQuizzesByUser([FromBody]int userId)
+        {
+            var quizzesFound = await _quizService.GetQuizzesByUser(userId);
+            return Ok(new { quizzes = quizzesFound });
+        }
     }
 }

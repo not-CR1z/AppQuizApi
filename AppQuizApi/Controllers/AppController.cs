@@ -41,10 +41,12 @@ namespace AppQuizApi.Controllers
         public async Task<IActionResult> Login(User user)
         {
             user.Password = AppUtilities.EncryptPassword(user.Password);
-            bool userSelected = await _userService.Login(user);
-            if (userSelected)
+            User? userSelected = await _userService.Login(user);
+            if (userSelected != null)
             {
-                return Ok();
+                userSelected.Password = "";
+                var userInfoResponse = new { userSelected.Id, userSelected.UserName, userSelected.Avatar };
+                return Ok(userInfoResponse);
             }
             return this.BadRequest(new { message = "Nombre de usuario o contaseña incorrectos" });
         }

@@ -24,18 +24,21 @@ namespace AppQuizApi.Repositories
             return _context.Users.AnyAsync(u => u.UserName == user.UserName);
         }
 
-        public async Task<bool> Login(User user)
+        public async Task<User?> Login(User user)
         {
             var userRegistered = await _context.Users.Where(x => x.UserName == user.UserName && x.Password==user.Password).FirstOrDefaultAsync();
-            return userRegistered != null ? true : false ;
+            if(userRegistered != null)
+            {
+               userRegistered.Avatar = await _context.Avatar.Where(x => x.Id == userRegistered.AvatarId).FirstOrDefaultAsync();
+            }
+            return userRegistered;
         }
-        public async Task<User> GetUserInfo(User user)
+        public async Task<User?> GetUserInfo(User user)
         {
             var userSelected = await _context.Users.Where(x => x.UserName == user.UserName && x.Password == user.Password).Include(x => x.Avatar).FirstOrDefaultAsync();
             return userSelected;
         }
-
-        public async Task<User> ValidatePassword(Int32 id, String password)
+        public async Task<User?> ValidatePassword(Int32 id, String password)
         {
             var userSelected =  await this._context.Users.Where(x => x.Id == id && x.Password == password).FirstOrDefaultAsync();
             return userSelected;
@@ -45,6 +48,11 @@ namespace AppQuizApi.Repositories
         {
             this._context.Update(user);
             await this._context.SaveChangesAsync();
+        }
+
+        public async Task<Avatar?> GetAvatarByUser(int id)
+        {
+            return await _context.Avatar.Where(x => x.Id == id).FirstOrDefaultAsync();
         }
     }
 }

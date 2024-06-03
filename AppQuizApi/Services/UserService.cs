@@ -22,17 +22,17 @@ namespace AppQuizApi.Services
         {
             return _userRepository.ValidateUserExistence(user);
         }
-        public Task<bool> Login(User user)
+        public Task<User?> Login(User user)
         {
             return _userRepository.Login(user);
         }
 
-        public async Task<User> GetUserInfo(User user)
-        {
-            return await _userRepository.GetUserInfo(user);
-        }
+        //public async Task<User?> GetUserInfo(User user)
+        //{
+        //    return await _userRepository.GetUserInfo(user);
+        //}
 
-        public async Task<User> ValidatePassword(Int32 idUsuario, String passwordAnterior)
+        public async Task<User?> ValidatePassword(Int32 idUsuario, String passwordAnterior)
         {
             return await _userRepository.ValidatePassword(idUsuario, passwordAnterior);
         }
@@ -41,6 +41,5 @@ namespace AppQuizApi.Services
         {
             await _userRepository.UpdatePassword(usuario);
         }
-
     }
 }

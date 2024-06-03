@@ -6,11 +6,12 @@ namespace AppQuizApi.Domain.IServices
     {
         Task SaveUser(User user);
         Task<bool> ValidateExistence(User user);
-        Task<bool> Login(User user);
-        Task<User> GetUserInfo(User user);
+        Task<User?> Login(User user);
+        //Task<User?> GetUserInfo(User user);
 
         //Pendientes
-        Task<User> ValidatePassword(Int32 id, String password);
+        Task<User?> ValidatePassword(Int32 id, String password);
         Task UpdatePassword(User user);
+
     }
 }
