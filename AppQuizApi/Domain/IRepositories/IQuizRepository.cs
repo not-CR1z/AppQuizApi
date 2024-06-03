@@ -9,5 +9,6 @@ namespace AppQuizApi.Domain.IRepositories
         Task<List<Category>> GetCategories();
         Task AddQuestion(Question question);
         Task<List<Quiz>> GetQuizzesByUser(int userId);
+        Task DeleteQuiz(int quizId);
     }
 }

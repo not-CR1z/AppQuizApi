@@ -25,7 +25,12 @@ namespace AppQuizApi.Repositories
 
         public async Task<List<Quiz>> GetQuizzes()
         {
-            return await _context.Quizzes.ToListAsync();
+            var quizzes = await _context.Quizzes.Include(x => x.Category).Include(x => x.Creator).ThenInclude(x => x.Avatar).ToListAsync();
+            foreach (Quiz quiz in quizzes)
+            {
+                quiz.Creator.Password = "";
+            }
+            return quizzes;
         }
         public async Task<List<Category>> GetCategories()
         {
@@ -34,7 +39,17 @@ namespace AppQuizApi.Repositories
 
         public async Task<List<Quiz>> GetQuizzesByUser(int userId)
         {
-            return await _context.Quizzes.Where(x => x.CreatorId == userId).Include(x => x.Category).OrderDescending().ToListAsync();
+            return await _context.Quizzes.Where(x => x.CreatorId == userId).Include(x => x.Category).ToListAsync();
+        }
+
+        public async Task DeleteQuiz(int quizId)
+        {
+            var quizToDelete = _context.Quizzes.SingleOrDefault(x => x.Id == quizId);
+            if (quizToDelete != null)
+            {
+            _context.Quizzes.Remove(quizToDelete);
+            }
+            await _context.SaveChangesAsync();
         }
     }
 }

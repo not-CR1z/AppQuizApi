@@ -21,9 +21,10 @@ namespace AppQuizApi.Controllers
             return Ok(new { message = "Quiz guardado con éxito", QuizId = quiz.Id });
         }
         [HttpPost("getQuizzes")]
-        public async Task GetQuizzes()
+        public async Task<IActionResult> GetQuizzes()
         {
             var quizes = await _quizService.GetQuizzes();
+            return Ok(quizes);
         }
         [HttpPost("getCategories")]
         public async Task<IActionResult> GetCategories()
@@ -36,14 +37,21 @@ namespace AppQuizApi.Controllers
         public async Task<IActionResult> AddQuestion(Question question)
         {
             await _quizService.AddQuestion(question);
-            return Ok(new { message = "La pregunta se ha agregado correctamente al examen"});
+            return Ok(new { message = "La pregunta se ha agregado correctamente al examen" });
         }
 
         [HttpPost("getQuizzesByUser")]
-        public async Task<IActionResult> GetQuizzesByUser([FromBody]int userId)
+        public async Task<IActionResult> GetQuizzesByUser([FromBody] int userId)
         {
             var quizzesFound = await _quizService.GetQuizzesByUser(userId);
             return Ok(new { quizzes = quizzesFound });
+        }
+
+        [HttpPost("deleteQuiz")]
+        public async Task<IActionResult> DeleteQuiz([FromBody]int quizId)
+        {
+            await _quizService.DeleteQuiz(quizId);
+            return Ok(new { message = "Tu quiz se ha removido con éxito" });
         }
     }
 }

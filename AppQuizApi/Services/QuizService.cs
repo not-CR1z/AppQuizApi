@@ -36,5 +36,10 @@ namespace AppQuizApi.Services
         {
             return _quizRepository.GetQuizzesByUser(userId);
         }
+
+        public Task DeleteQuiz(int quizId)
+        {
+            return _quizRepository.DeleteQuiz(quizId);
+        }
     }
 }

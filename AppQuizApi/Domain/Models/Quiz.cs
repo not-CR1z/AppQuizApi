@@ -15,7 +15,7 @@ namespace AppQuizApi.Domain.Models
         [Required]
         public int CategoryId { get; set; }
         [ForeignKey("CategoryId")]
-        public virtual Category? Category { get; set; }
+        public Category? Category { get; set; }
         public int CreatorId { get; set; }
         [ForeignKey("CreatorId")]
         public User? Creator { get; set; }
