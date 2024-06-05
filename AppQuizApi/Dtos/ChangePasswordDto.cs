@@ -1,11 +1,12 @@
-﻿namespace AppQuizApi.Domain.Models
+﻿namespace AppQuizApi.Dtos
 {
     /// <summary>
     /// Clase implementada para la actualización de contraseña de un usuario
     /// </summary>
-    public class Passwords
+    public class ChangePasswordDto
     {
-        public string Password { get; set; }
+        public int UserId { get; set; }
+        public string CurrentPassword { get; set; }
         public string NewPassword { get; set; }
     }
 }

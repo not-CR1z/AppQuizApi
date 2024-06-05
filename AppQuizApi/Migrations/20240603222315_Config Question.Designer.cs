@@ -4,6 +4,7 @@ using AppQuizApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppQuizApi.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240603222315_Config Question")]
+    partial class ConfigQuestion
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -39,7 +42,6 @@ namespace AppQuizApi.Migrations
                         .HasColumnType("nvarchar(250)");
 
                     b.Property<int?>("QuestionId")
-                        .IsRequired()
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -175,11 +177,11 @@ namespace AppQuizApi.Migrations
 
             modelBuilder.Entity("AppQuizApi.Domain.Models.Answer", b =>
                 {
-                    b.HasOne("AppQuizApi.Domain.Models.Question", null)
+                    b.HasOne("AppQuizApi.Domain.Models.Question", "Question")
                         .WithMany("Answers")
-                        .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("QuestionId");
+
+                    b.Navigation("Question");
                 });
 
             modelBuilder.Entity("AppQuizApi.Domain.Models.Question", b =>

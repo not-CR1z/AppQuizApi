@@ -1,4 +1,5 @@
 ﻿using AppQuizApi.Domain.Models;
+using AppQuizApi.Dtos;
 
 namespace AppQuizApi.Domain.IRepository
 {
@@ -8,9 +9,8 @@ namespace AppQuizApi.Domain.IRepository
         Task<Boolean> ValidateUserExistence(User user);
         Task<User?> Login(User user);
         //Task<User?> GetUserInfo(User user);
-
         //Pendiente
         Task<User?> ValidatePassword(Int32 id, String password);
-        Task UpdatePassword(User user);
+        Task<bool> UpdatePassword(ChangePasswordDto user);
     }
 }

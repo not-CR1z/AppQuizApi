@@ -10,8 +10,7 @@ namespace AppQuizApi.Domain.Models
         [StringLength(250)]
         public string Name { get; set; }
         public bool IsTrue { get; set; }
-        public int? QuestionId { get; set; }
         [ForeignKey("QuestionId")]
-        public Question? Question { get; set; }
+        public int? QuestionId { get; set; }
     }
 }

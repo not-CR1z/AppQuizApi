@@ -47,9 +47,50 @@ namespace AppQuizApi.Repositories
             var quizToDelete = _context.Quizzes.SingleOrDefault(x => x.Id == quizId);
             if (quizToDelete != null)
             {
-            _context.Quizzes.Remove(quizToDelete);
+                _context.Quizzes.Remove(quizToDelete);
             }
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<Quiz?> GetQuestionsByQuiz(int quizId)
+        {
+            return await _context.Quizzes.Where(x => x.Id == quizId).Include(x => x.Questions).ThenInclude(x => x.Answers).FirstOrDefaultAsync();
+        }
+
+        public async Task<bool> UpdateQuiz(Quiz quiz)
+        {
+            var quizToUpdate = await _context.Quizzes.Where(x => x.Id == quiz.Id).FirstOrDefaultAsync();
+            if (quizToUpdate != null)
+            {
+                quizToUpdate = quiz;
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> UpdateQuestion(Question question)
+        {
+            var questionToUpdate = await _context.Questions.Where(x => x.Id == question.Id).FirstOrDefaultAsync();
+            if (questionToUpdate != null)
+            {
+                questionToUpdate = question;
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+
+        public async Task<bool> DeleteQuestion(int questionId)
+        {
+            var questionToDelete = await _context.Questions.Where(x => x.Id == questionId).FirstOrDefaultAsync();
+            if (questionToDelete != null)
+            {
+                _context.Questions.Remove(questionToDelete);
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
     }
 }

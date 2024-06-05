@@ -41,5 +41,24 @@ namespace AppQuizApi.Services
         {
             return _quizRepository.DeleteQuiz(quizId);
         }
+
+        public Task<Quiz?> GetQuestionsByQuiz(int quizId)
+        {
+           return _quizRepository.GetQuestionsByQuiz(quizId);
+        }
+
+        public Task<bool> UpdateQuiz(Quiz quiz)
+        {
+          return  _quizRepository.UpdateQuiz(quiz);
+        }
+        public Task<bool> UpdateQuestion(Question question)
+        {
+            return _quizRepository.UpdateQuestion(question);
+        }
+
+        public Task<bool> DeleteQuestion(int questionId)
+        {
+            return _quizRepository.DeleteQuestion(questionId);
+        }
     }
 }

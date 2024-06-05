@@ -1,5 +1,6 @@
 ﻿using AppQuizApi.Domain.IServices;
 using AppQuizApi.Domain.Models;
+using AppQuizApi.Dtos;
 using AppQuizApi.Utilities;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
@@ -51,33 +52,18 @@ namespace AppQuizApi.Controllers
             return this.BadRequest(new { message = "Nombre de usuario o contaseña incorrectos" });
         }
 
-        //[Route("CambiarPassword")]
-        //[Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme)]
-        //[HttpPut]
-        //public async Task<IActionResult> CambiarPassword([FromBody] Passwords passwords)
-        //{
-        //    try
-        //    {
-        //        var identity = this.HttpContext.User.Identity as ClaimsIdentity;
-
-        //        Int32 idUsuario = JwtConfigurator.intGetTokenIdUsuario(identity);
-        //        String passwordEnciptado = AppUtilities.EncryptPassword(passwords.Password);
-        //        var usuario = await this._userService.ValidatePassword(idUsuario, passwordEnciptado);
-        //        if (usuario == null)
-        //        {
-        //            return this.BadRequest(new { message = "La contraseña es incorrecta" });
-        //        }
-        //        else
-        //        {
-        //            usuario.Password = AppUtilities.EncryptPassword(passwords.NewPassword);
-        //            await this._userService.UpdatePassword(usuario);
-        //            return this.Ok(new { message = "La password fue actualizada con éxtito!" });
-        //        }
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        return this.BadRequest(ex.Message);
-        //    }
-        //}
+        [Route("changePassword")]
+        [HttpPost]
+        public async Task<IActionResult> CambiarPassword( ChangePasswordDto changePasswordDto)
+        {
+            changePasswordDto.CurrentPassword = AppUtilities.EncryptPassword(changePasswordDto.CurrentPassword);
+            changePasswordDto.NewPassword = AppUtilities.EncryptPassword(changePasswordDto.NewPassword);
+            var wasChaged = await _userService.UpdatePassword(changePasswordDto);
+            if (wasChaged)
+            {
+                return Ok(new { message = "Tu contraseña se cambiada correctamente" });
+            }
+            return BadRequest(new { message = "No se pudo ejecutar la actualización" });
+        }
     }
 }

@@ -1,6 +1,7 @@
 ﻿using AppQuizApi.Domain.IRepository;
 using AppQuizApi.Domain.IServices;
 using AppQuizApi.Domain.Models;
+using AppQuizApi.Dtos;
 
 namespace AppQuizApi.Services
 {
@@ -37,9 +38,9 @@ namespace AppQuizApi.Services
             return await _userRepository.ValidatePassword(idUsuario, passwordAnterior);
         }
 
-        public async Task UpdatePassword(User usuario)
+        public async Task<bool> UpdatePassword(ChangePasswordDto changePasswordDto)
         {
-            await _userRepository.UpdatePassword(usuario);
+           return await _userRepository.UpdatePassword(changePasswordDto);
         }
     }
 }

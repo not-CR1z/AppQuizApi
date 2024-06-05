@@ -9,8 +9,9 @@ namespace AppQuizApi.Domain.Models
         [Required]
         [StringLength(250)]
         public string Name { get; set; }
-        public int QuizId { get; set; }
+        [Required]
         [ForeignKey("QuizId")]
-        public Quiz? Quiz { get; set; }
+        public int QuizId { get; set; }
+        public List<Answer>? Answers { get; set; }
     }
 }

@@ -53,5 +53,46 @@ namespace AppQuizApi.Controllers
             await _quizService.DeleteQuiz(quizId);
             return Ok(new { message = "Tu quiz se ha removido con éxito" });
         }
+        [HttpPost("getQuizById")]
+        public async Task<IActionResult> GetQuestionsByQuiz([FromBody] int quizId)
+        {
+            var quizToPresent = await _quizService.GetQuestionsByQuiz(quizId);
+            if(quizToPresent != null)
+            {
+                return Ok(quizToPresent);
+            }
+            return BadRequest("Ocurrió un error al obtener el examen");
+        }
+        [HttpPost("updateQuiz")]
+        public async Task<IActionResult> UpdateQuiz(Quiz quiz)
+        {
+            var wasUpdated = await _quizService.UpdateQuiz(quiz);
+            if (wasUpdated)
+            {
+                return Ok(new {message="Quiz actualizado con éxito"});
+            }
+            return BadRequest("No se ha podido realizar la actualización");
+        }
+
+        [HttpPost("updateQuestion")]
+        public async Task<IActionResult> UpdateQuestion(Question question)
+        {
+            var wasUpdated = await _quizService.UpdateQuestion(question);
+            if (wasUpdated)
+            {
+                return Ok(new { message = "Pregunta actualizado con éxito" });
+            }
+            return BadRequest("No se ha podido realizar la actualización");
+        }
+        [HttpPost("deleteQuestion")]
+        public async Task<IActionResult> DeleteQuestion([FromBody] int questionId)
+        {
+            var wasDeleted= await _quizService.DeleteQuestion(questionId);
+            if (wasDeleted)
+            {
+                return Ok(new { message = "Pregunta eliminada con éxito" });
+            }
+            return BadRequest("No se ha podido realizar la acción");
+        }
     }
 }

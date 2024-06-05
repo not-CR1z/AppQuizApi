@@ -1,4 +1,5 @@
 ﻿using AppQuizApi.Domain.Models;
+using AppQuizApi.Dtos;
 
 namespace AppQuizApi.Domain.IServices
 {
@@ -11,7 +12,6 @@ namespace AppQuizApi.Domain.IServices
 
         //Pendientes
         Task<User?> ValidatePassword(Int32 id, String password);
-        Task UpdatePassword(User user);
-
+        Task<bool> UpdatePassword(ChangePasswordDto changePasswordDto);
     }
 }

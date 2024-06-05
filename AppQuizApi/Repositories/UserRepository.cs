@@ -1,6 +1,8 @@
 ﻿using AppQuizApi.Data;
 using AppQuizApi.Domain.IRepository;
 using AppQuizApi.Domain.Models;
+using AppQuizApi.Dtos;
+using AppQuizApi.Utilities;
 using Microsoft.EntityFrameworkCore;
 
 namespace AppQuizApi.Repositories
@@ -15,6 +17,7 @@ namespace AppQuizApi.Repositories
         }
         public async Task SaveUser(User user)
         {
+            user.AvatarId = 1;
             _context.Add(user);
             await _context.SaveChangesAsync();
         }
@@ -26,10 +29,10 @@ namespace AppQuizApi.Repositories
 
         public async Task<User?> Login(User user)
         {
-            var userRegistered = await _context.Users.Where(x => x.UserName == user.UserName && x.Password==user.Password).FirstOrDefaultAsync();
-            if(userRegistered != null)
+            var userRegistered = await _context.Users.Where(x => x.UserName == user.UserName && x.Password == user.Password).FirstOrDefaultAsync();
+            if (userRegistered != null)
             {
-               userRegistered.Avatar = await _context.Avatar.Where(x => x.Id == userRegistered.AvatarId).FirstOrDefaultAsync();
+                userRegistered.Avatar = await _context.Avatar.Where(x => x.Id == userRegistered.AvatarId).FirstOrDefaultAsync();
             }
             return userRegistered;
         }
@@ -40,14 +43,20 @@ namespace AppQuizApi.Repositories
         }
         public async Task<User?> ValidatePassword(Int32 id, String password)
         {
-            var userSelected =  await this._context.Users.Where(x => x.Id == id && x.Password == password).FirstOrDefaultAsync();
+            var userSelected = await this._context.Users.Where(x => x.Id == id && x.Password == password).FirstOrDefaultAsync();
             return userSelected;
         }
 
-        public async Task UpdatePassword(User user)
+        public async Task<bool> UpdatePassword(ChangePasswordDto changePasswordDto)
         {
-            this._context.Update(user);
-            await this._context.SaveChangesAsync();
+            var userSelected = await this._context.Users.Where(x => x.Id == changePasswordDto.UserId && x.Password == changePasswordDto.CurrentPassword).FirstOrDefaultAsync();
+            if (userSelected != null)
+            {
+                userSelected.Password = changePasswordDto.NewPassword;
+                await this._context.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
 
         public async Task<Avatar?> GetAvatarByUser(int id)
