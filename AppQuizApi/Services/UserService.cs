@@ -2,6 +2,7 @@
 using AppQuizApi.Domain.IServices;
 using AppQuizApi.Domain.Models;
 using AppQuizApi.Dtos;
+using System.Reflection.Metadata.Ecma335;
 
 namespace AppQuizApi.Services
 {
@@ -19,7 +20,7 @@ namespace AppQuizApi.Services
             await _userRepository.SaveUser(user);
         }
 
-        public Task<bool> ValidateExistence(User user)
+        public Task<bool> ValidateUserExistence(User user)
         {
             return _userRepository.ValidateUserExistence(user);
         }
@@ -28,19 +29,20 @@ namespace AppQuizApi.Services
             return _userRepository.Login(user);
         }
 
-        //public async Task<User?> GetUserInfo(User user)
-        //{
-        //    return await _userRepository.GetUserInfo(user);
-        //}
-
-        public async Task<User?> ValidatePassword(Int32 idUsuario, String passwordAnterior)
+        public Task<bool> UpdatePassword(ChangePasswordDto changePasswordDto)
         {
-            return await _userRepository.ValidatePassword(idUsuario, passwordAnterior);
+           return _userRepository.UpdatePassword(changePasswordDto);
         }
 
-        public async Task<bool> UpdatePassword(ChangePasswordDto changePasswordDto)
+        public Task<List<Avatar>> GetAvatars()
         {
-           return await _userRepository.UpdatePassword(changePasswordDto);
+            return _userRepository.GetAvatars();
         }
+
+        public Task<bool> UpdateAvatar(User user)
+        {
+            return _userRepository.UpdateAvatar(user);
+        }
+
     }
 }

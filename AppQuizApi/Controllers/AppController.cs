@@ -23,7 +23,7 @@ namespace AppQuizApi.Controllers
         {
             try
             {
-                if (await _userService.ValidateExistence(user))
+                if (await _userService.ValidateUserExistence(user))
                 {
                     return BadRequest(new { message = $"El usuario {user.UserName} ya existe" });
                 }
@@ -64,6 +64,34 @@ namespace AppQuizApi.Controllers
                 return Ok(new { message = "Tu contraseña se cambiada correctamente" });
             }
             return BadRequest(new { message = "No se pudo ejecutar la actualización" });
+        }
+        [Route("getAvatars")]
+        [HttpPost]
+        public async Task<IActionResult> GetAvatars()
+        {
+            var avatarList = await _userService.GetAvatars();
+            if(avatarList != null)
+            {
+                return Ok(avatarList);
+            }
+            else
+            {
+                return BadRequest(new { message = "Ha ocurrido un error al obtener los avatars" });
+            }
+        }
+        [Route("updateAvatar")]
+        [HttpPost]
+        public async Task<IActionResult> UpdateAvatar(User user)
+        {
+            var avatarList = await _userService.UpdateAvatar(user);
+            if(avatarList)
+            {
+                return Ok(new { message = "Se ha actualizado tu avatar" });
+            }
+            else
+            {
+                return BadRequest(new { message = "Ha ocurrido un error al actualizar tu avatar" });
+            }
         }
     }
 }

@@ -8,9 +8,8 @@ namespace AppQuizApi.Domain.IRepository
         Task SaveUser(User user);
         Task<Boolean> ValidateUserExistence(User user);
         Task<User?> Login(User user);
-        //Task<User?> GetUserInfo(User user);
-        //Pendiente
-        Task<User?> ValidatePassword(Int32 id, String password);
         Task<bool> UpdatePassword(ChangePasswordDto user);
+        Task<List<Avatar>> GetAvatars();
+        Task<bool> UpdateAvatar(User user);
     }
 }

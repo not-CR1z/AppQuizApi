@@ -21,12 +21,10 @@ namespace AppQuizApi.Repositories
             _context.Add(user);
             await _context.SaveChangesAsync();
         }
-
         public Task<bool> ValidateUserExistence(User user)
         {
             return _context.Users.AnyAsync(u => u.UserName == user.UserName);
         }
-
         public async Task<User?> Login(User user)
         {
             var userRegistered = await _context.Users.Where(x => x.UserName == user.UserName && x.Password == user.Password).FirstOrDefaultAsync();
@@ -62,6 +60,23 @@ namespace AppQuizApi.Repositories
         public async Task<Avatar?> GetAvatarByUser(int id)
         {
             return await _context.Avatar.Where(x => x.Id == id).FirstOrDefaultAsync();
+        }
+
+        public Task<List<Avatar>> GetAvatars()
+        {
+            return _context.Avatar.ToListAsync();
+        }
+
+        public async Task<bool> UpdateAvatar(User user)
+        {
+            var userToUpdate = await _context.Users.Where(x => x.Id == user.Id).FirstOrDefaultAsync();
+            if (userToUpdate != null)
+            {
+                userToUpdate.AvatarId = user.AvatarId;
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
     }
 }

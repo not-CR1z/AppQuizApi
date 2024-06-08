@@ -62,7 +62,8 @@ namespace AppQuizApi.Repositories
             var quizToUpdate = await _context.Quizzes.Where(x => x.Id == quiz.Id).FirstOrDefaultAsync();
             if (quizToUpdate != null)
             {
-                quizToUpdate = quiz;
+                quizToUpdate.Name = quiz.Name;
+                quizToUpdate.Description = quiz.Description;
                 await _context.SaveChangesAsync();
                 return true;
             }
@@ -74,7 +75,8 @@ namespace AppQuizApi.Repositories
             var questionToUpdate = await _context.Questions.Where(x => x.Id == question.Id).FirstOrDefaultAsync();
             if (questionToUpdate != null)
             {
-                questionToUpdate = question;
+                questionToUpdate.Name = question.Name;
+                questionToUpdate.Answers = question.Answers;
                 await _context.SaveChangesAsync();
                 return true;
             }
