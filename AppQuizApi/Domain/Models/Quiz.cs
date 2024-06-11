@@ -12,6 +12,7 @@ namespace AppQuizApi.Domain.Models
         [Required]
         [StringLength(250)]
         public string Description { get; set; }
+        public int Attemps { get; set; }
         [Required]
         public int CategoryId { get; set; }
         [ForeignKey("CategoryId")]
@@ -19,6 +20,7 @@ namespace AppQuizApi.Domain.Models
         public int CreatorId { get; set; }
         [ForeignKey("CreatorId")]
         public User? Creator { get; set; }
-        public List<Question>? Questions{ get; set; }
+        public ICollection<Question>? Questions{ get; set; }
+        public ICollection<Stats>? Stats{ get; set; }
     }
 }

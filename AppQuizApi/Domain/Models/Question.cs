@@ -12,6 +12,6 @@ namespace AppQuizApi.Domain.Models
         [Required]
         [ForeignKey("QuizId")]
         public int QuizId { get; set; }
-        public List<Answer>? Answers { get; set; }
+        public ICollection<Answer>? Answers { get; set; }
     }
 }

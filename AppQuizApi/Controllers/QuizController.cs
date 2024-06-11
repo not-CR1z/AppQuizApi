@@ -48,7 +48,7 @@ namespace AppQuizApi.Controllers
         }
 
         [HttpPost("deleteQuiz")]
-        public async Task<IActionResult> DeleteQuiz([FromBody]int quizId)
+        public async Task<IActionResult> DeleteQuiz([FromBody] int quizId)
         {
             await _quizService.DeleteQuiz(quizId);
             return Ok(new { message = "Tu quiz se ha removido con éxito" });
@@ -57,7 +57,7 @@ namespace AppQuizApi.Controllers
         public async Task<IActionResult> GetQuestionsByQuiz([FromBody] int quizId)
         {
             var quizToPresent = await _quizService.GetQuestionsByQuiz(quizId);
-            if(quizToPresent != null)
+            if (quizToPresent != null)
             {
                 return Ok(quizToPresent);
             }
@@ -69,7 +69,7 @@ namespace AppQuizApi.Controllers
             var wasUpdated = await _quizService.UpdateQuiz(quiz);
             if (wasUpdated)
             {
-                return Ok(new {message="Quiz actualizado con éxito"});
+                return Ok(new { message = "Quiz actualizado con éxito" });
             }
             return BadRequest("No se ha podido realizar la actualización");
         }
@@ -87,12 +87,29 @@ namespace AppQuizApi.Controllers
         [HttpPost("deleteQuestion")]
         public async Task<IActionResult> DeleteQuestion([FromBody] int questionId)
         {
-            var wasDeleted= await _quizService.DeleteQuestion(questionId);
+            var wasDeleted = await _quizService.DeleteQuestion(questionId);
             if (wasDeleted)
             {
                 return Ok(new { message = "Pregunta eliminada con éxito" });
             }
-            return BadRequest("No se ha podido realizar la acción");
+            return BadRequest(new { message = "No se ha podido ejecutar la acción solicitada" });
+        }
+        [HttpPost("presentQuiz")]
+        public async Task<IActionResult> PresentQuiz([FromBody] int quizId)
+        {
+            var attempAdded = await _quizService.AddAttemp(quizId);
+            if (attempAdded)
+            {
+                return Ok(new { message = "Se guardó el registro de la presentación del Quiz" });
+            }
+            return BadRequest(new { message = "No se ha podido ejecutar la acción solicitada" });
+        }
+        [HttpPost("addStars")]
+        public async Task<IActionResult> AddStars(Stats stats)
+        {
+            await _quizService.AddStats(stats);
+            return Ok(new { message = "Se guardó tu calificación sobre el cuestionario" });
+
         }
     }
 }

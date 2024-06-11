@@ -14,5 +14,6 @@ namespace AppQuizApi.Data
         public DbSet<Answer> Answers{ get; set; }
         public DbSet<Category> Categories{ get; set; }
         public DbSet<Avatar> Avatar{ get; set; }
+        public DbSet<Stats> Stats{ get; set; }
     }
 }

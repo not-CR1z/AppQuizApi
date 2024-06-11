@@ -25,7 +25,7 @@ namespace AppQuizApi.Repositories
 
         public async Task<List<Quiz>> GetQuizzes()
         {
-            var quizzes = await _context.Quizzes.Include(x => x.Category).Include(x => x.Creator).ThenInclude(x => x.Avatar).ToListAsync();
+            var quizzes = await _context.Quizzes.Include(x => x.Category).Include(x => x.Stats).Include(x => x.Creator).ThenInclude(x => x.Avatar).ToListAsync();
             foreach (Quiz quiz in quizzes)
             {
                 quiz.Creator.Password = "";
@@ -93,6 +93,23 @@ namespace AppQuizApi.Repositories
                 return true;
             }
             return false;
+        }
+
+        public async Task<bool> AddAttemp(int quizId)
+        {
+            var quizPresented = await _context.Quizzes.Where(x => x.Id == quizId).FirstOrDefaultAsync();
+            if(quizPresented != null)
+            {
+            quizPresented.Attemps++;
+            await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
+        }
+        public async Task AddStats(Stats stats)
+        {
+            _context.Stats.Add(stats);
+            await _context.SaveChangesAsync();
         }
     }
 }

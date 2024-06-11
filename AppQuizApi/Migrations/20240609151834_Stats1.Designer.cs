@@ -4,6 +4,7 @@ using AppQuizApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppQuizApi.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240609151834_Stats1")]
+    partial class Stats1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -119,9 +122,6 @@ namespace AppQuizApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Attemps")
-                        .HasColumnType("int");
-
                     b.Property<int>("CategoryId")
                         .HasColumnType("int");
 
@@ -138,16 +138,21 @@ namespace AppQuizApi.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("nvarchar(50)");
 
+                    b.Property<int>("StatsId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoryId");
 
                     b.HasIndex("CreatorId");
 
+                    b.HasIndex("StatsId");
+
                     b.ToTable("Quizzes");
                 });
 
-            modelBuilder.Entity("AppQuizApi.Domain.Models.Stats", b =>
+            modelBuilder.Entity("AppQuizApi.Domain.Models.QuizStats", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -155,7 +160,7 @@ namespace AppQuizApi.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("QuizId")
+                    b.Property<int>("QuizAtemps")
                         .HasColumnType("int");
 
                     b.Property<int>("StarRating")
@@ -163,9 +168,7 @@ namespace AppQuizApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("QuizId");
-
-                    b.ToTable("Stats");
+                    b.ToTable("QuizStats");
                 });
 
             modelBuilder.Entity("AppQuizApi.Domain.Models.User", b =>
@@ -226,18 +229,17 @@ namespace AppQuizApi.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("AppQuizApi.Domain.Models.QuizStats", "Stats")
+                        .WithMany()
+                        .HasForeignKey("StatsId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Category");
 
                     b.Navigation("Creator");
-                });
 
-            modelBuilder.Entity("AppQuizApi.Domain.Models.Stats", b =>
-                {
-                    b.HasOne("AppQuizApi.Domain.Models.Quiz", null)
-                        .WithMany("Stats")
-                        .HasForeignKey("QuizId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.Navigation("Stats");
                 });
 
             modelBuilder.Entity("AppQuizApi.Domain.Models.User", b =>
@@ -259,8 +261,6 @@ namespace AppQuizApi.Migrations
             modelBuilder.Entity("AppQuizApi.Domain.Models.Quiz", b =>
                 {
                     b.Navigation("Questions");
-
-                    b.Navigation("Stats");
                 });
 #pragma warning restore 612, 618
         }

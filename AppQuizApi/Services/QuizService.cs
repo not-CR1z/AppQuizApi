@@ -60,5 +60,15 @@ namespace AppQuizApi.Services
         {
             return _quizRepository.DeleteQuestion(questionId);
         }
+
+        public Task<bool> AddAttemp(int quizId)
+        {
+            return _quizRepository.AddAttemp(quizId);
+        }
+
+        public async Task AddStats(Stats stats)
+        {
+           await _quizRepository.AddStats(stats);
+        }
     }
 }

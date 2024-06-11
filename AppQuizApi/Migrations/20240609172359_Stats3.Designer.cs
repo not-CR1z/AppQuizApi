@@ -4,6 +4,7 @@ using AppQuizApi.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace AppQuizApi.Migrations
 {
     [DbContext(typeof(AppDBContext))]
-    partial class AppDBContextModelSnapshot : ModelSnapshot
+    [Migration("20240609172359_Stats3")]
+    partial class Stats3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -163,8 +166,6 @@ namespace AppQuizApi.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("QuizId");
-
                     b.ToTable("Stats");
                 });
 
@@ -231,15 +232,6 @@ namespace AppQuizApi.Migrations
                     b.Navigation("Creator");
                 });
 
-            modelBuilder.Entity("AppQuizApi.Domain.Models.Stats", b =>
-                {
-                    b.HasOne("AppQuizApi.Domain.Models.Quiz", null)
-                        .WithMany("Stats")
-                        .HasForeignKey("QuizId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-                });
-
             modelBuilder.Entity("AppQuizApi.Domain.Models.User", b =>
                 {
                     b.HasOne("AppQuizApi.Domain.Models.Avatar", "Avatar")
@@ -259,8 +251,6 @@ namespace AppQuizApi.Migrations
             modelBuilder.Entity("AppQuizApi.Domain.Models.Quiz", b =>
                 {
                     b.Navigation("Questions");
-
-                    b.Navigation("Stats");
                 });
 #pragma warning restore 612, 618
         }

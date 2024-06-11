@@ -14,5 +14,7 @@ namespace AppQuizApi.Domain.IRepositories
         Task<bool> UpdateQuiz(Quiz quiz);
         Task<bool> UpdateQuestion(Question question);
         Task<bool> DeleteQuestion(int questionId);
+        Task<bool> AddAttemp(int quizId);
+        Task AddStats(Stats stats);
     }
 }
