@@ -35,7 +35,13 @@ namespace AppQuizApi.Repositories
         [Authorize]
         public async Task<List<Quiz>> GetQuizzes()
         {
-            var quizzes = await _context.Quizzes.Include(x => x.Category).Include(x => x.Stats).Include(x => x.Creator).ThenInclude(x => x.Avatar).ToListAsync();
+            var quizzes = await _context.Quizzes.
+                Include(x => x.Category).
+                Include(x => x.Stats).
+                Include(x => x.Creator).
+                ThenInclude(x => x.Avatar).
+                OrderByDescending(x => x.Id).
+                ToListAsync();
             foreach (Quiz quiz in quizzes)
             {
                 quiz.Creator!.Password = "";
@@ -54,7 +60,11 @@ namespace AppQuizApi.Repositories
         [Authorize]
         public async Task<List<Quiz>> GetQuizzesByUser(int userId)
         {
-            return await _context.Quizzes.Where(x => x.CreatorId == userId).Include(x => x.Category).ToListAsync();
+            return await _context.Quizzes.
+                Where(x => x.CreatorId == userId).
+                Include(x => x.Category).
+                OrderByDescending(x => x.Id).
+                ToListAsync();
         }
 
         //Método encargado de eliminar el Quiz seleccionado
@@ -73,7 +83,11 @@ namespace AppQuizApi.Repositories
         [Authorize]
         public async Task<Quiz?> GetQuestionsByQuiz(int quizId)
         {
-            return await _context.Quizzes.Where(x => x.Id == quizId).Include(x => x.Questions)!.ThenInclude(x => x.Answers).FirstOrDefaultAsync();
+            return await _context.Quizzes.
+                Where(x => x.Id == quizId).
+                Include(x => x.Questions)!.
+                ThenInclude(x => x.Answers)
+                .FirstOrDefaultAsync();
         }
 
         //Método encargado de la actualización del Quiz seleccionado
