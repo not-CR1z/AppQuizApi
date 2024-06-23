@@ -4,6 +4,7 @@ using AppQuizApi.Domain.Models;
 
 namespace AppQuizApi.Services
 {
+    //Clase que implementa los servicios de interacción con las tablas Quiz, preguntas y respuestas
     public class QuizService : IQuizService
     {
         private readonly IQuizRepository _quizRepository;

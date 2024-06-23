@@ -2,6 +2,7 @@
 
 namespace AppQuizApi.Domain.IServices
 {
+    //Interface con los métodos a implementar por QuizService
     public interface IQuizService
     {
         Task<List<Quiz>> GetQuizzes();

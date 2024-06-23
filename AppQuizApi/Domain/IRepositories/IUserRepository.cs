@@ -3,6 +3,7 @@ using AppQuizApi.Dtos;
 
 namespace AppQuizApi.Domain.IRepository
 {
+    //Interface con los métodos a implementar por UserRepository
     public interface IUserRepository
     {
         Task SaveUser(User user);

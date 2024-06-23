@@ -2,6 +2,7 @@
 
 namespace AppQuizApi.Domain.IRepositories
 {
+    //Interface con los métodos a implementar por QuizRepository
     public interface IQuizRepository
     {
         Task<List<Quiz>> GetQuizzes();

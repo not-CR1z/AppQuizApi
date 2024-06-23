@@ -3,6 +3,7 @@ using AppQuizApi.Dtos;
 
 namespace AppQuizApi.Domain.IServices
 {
+    //Interface con los métodos a implementar por UserService
     public interface IUserService
     {
         Task SaveUser(User user);

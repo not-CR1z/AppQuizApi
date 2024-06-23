@@ -1,9 +1,11 @@
 ﻿using AppQuizApi.Domain.IServices;
 using AppQuizApi.Domain.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 
 namespace AppQuizApi.Controllers
+
+//Clase encargada del manejo de las peticiones que incluyan quizzes, preguntas y respuestas 
 {
     [Route("api/[controller]")]
     [ApiController]
@@ -14,18 +16,25 @@ namespace AppQuizApi.Controllers
         {
             _quizService = quizService;
         }
+
+        //Controlador encargado de la creación de un nuevo Quiz
         [HttpPost("addQuiz")]
         public async Task<IActionResult> AddQuiz(Quiz quiz)
         {
             await _quizService.AddQuiz(quiz);
             return Ok(new { message = "Quiz guardado con éxito", QuizId = quiz.Id });
         }
+
+        //Controlador encargado de la obtención de la lista de Quizzes creados
+        [Authorize]
         [HttpPost("getQuizzes")]
         public async Task<IActionResult> GetQuizzes()
         {
             var quizes = await _quizService.GetQuizzes();
             return Ok(quizes);
         }
+
+        //Controlador encargado de obtener las categorías previo a la creación de un Quiz
         [HttpPost("getCategories")]
         public async Task<IActionResult> GetCategories()
         {
@@ -33,6 +42,7 @@ namespace AppQuizApi.Controllers
             return Ok(quizes);
         }
 
+        //Controlador encargado de la creación de una nueva pregunta y sus respectivas opciones
         [HttpPost("addQuestion")]
         public async Task<IActionResult> AddQuestion(Question question)
         {
@@ -40,6 +50,7 @@ namespace AppQuizApi.Controllers
             return Ok(new { message = "La pregunta se ha agregado correctamente al examen" });
         }
 
+        //Controlador encargado de la obtención de los Quizzes creados por el usuario logeado
         [HttpPost("getQuizzesByUser")]
         public async Task<IActionResult> GetQuizzesByUser([FromBody] int userId)
         {
@@ -47,12 +58,15 @@ namespace AppQuizApi.Controllers
             return Ok(new { quizzes = quizzesFound });
         }
 
+        //Controlador encargado de la eliminación de un Quiz
         [HttpPost("deleteQuiz")]
         public async Task<IActionResult> DeleteQuiz([FromBody] int quizId)
         {
             await _quizService.DeleteQuiz(quizId);
             return Ok(new { message = "Tu quiz se ha removido con éxito" });
         }
+
+        //Controlador encargado de la obtención de un Quiz en específico para su presentación o actualización
         [HttpPost("getQuizById")]
         public async Task<IActionResult> GetQuestionsByQuiz([FromBody] int quizId)
         {
@@ -63,6 +77,8 @@ namespace AppQuizApi.Controllers
             }
             return BadRequest("Ocurrió un error al obtener el examen");
         }
+
+        //Controlador encargado de la actualización de un Quiz específico
         [HttpPost("updateQuiz")]
         public async Task<IActionResult> UpdateQuiz(Quiz quiz)
         {
@@ -74,6 +90,7 @@ namespace AppQuizApi.Controllers
             return BadRequest("No se ha podido realizar la actualización");
         }
 
+        //Controlador encargaado de la actualización de una pregunta en específico
         [HttpPost("updateQuestion")]
         public async Task<IActionResult> UpdateQuestion(Question question)
         {
@@ -84,6 +101,8 @@ namespace AppQuizApi.Controllers
             }
             return BadRequest("No se ha podido realizar la actualización");
         }
+
+        //Controlador encargado de eliminar una pregunta durante la actualización de un Quiz
         [HttpPost("deleteQuestion")]
         public async Task<IActionResult> DeleteQuestion([FromBody] int questionId)
         {
@@ -94,6 +113,8 @@ namespace AppQuizApi.Controllers
             }
             return BadRequest(new { message = "No se ha podido ejecutar la acción solicitada" });
         }
+
+        //Controlador encargado de registrar el intento del usuario
         [HttpPost("presentQuiz")]
         public async Task<IActionResult> PresentQuiz([FromBody] int quizId)
         {
@@ -104,12 +125,13 @@ namespace AppQuizApi.Controllers
             }
             return BadRequest(new { message = "No se ha podido ejecutar la acción solicitada" });
         }
+
+        //Controlador encargado de almacenar la calificación de estrellas dada por el usuario
         [HttpPost("addStars")]
         public async Task<IActionResult> AddStars(Stats stats)
         {
             await _quizService.AddStats(stats);
             return Ok(new { message = "Se guardó tu calificación sobre el cuestionario" });
-
         }
     }
 }

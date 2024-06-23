@@ -1,8 +1,6 @@
 ﻿namespace AppQuizApi.Dtos
 {
-    /// <summary>
-    /// Clase implementada para la actualización de contraseña de un usuario
-    /// </summary>
+    // Clase implementada para la actualización de contraseña de un usuario
     public class ChangePasswordDto
     {
         public int UserId { get; set; }

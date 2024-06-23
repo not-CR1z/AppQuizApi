@@ -2,10 +2,10 @@
 using AppQuizApi.Domain.IServices;
 using AppQuizApi.Domain.Models;
 using AppQuizApi.Dtos;
-using System.Reflection.Metadata.Ecma335;
 
 namespace AppQuizApi.Services
 {
+    //Clase que implementa los servicios de interacción con la tabla de usuarios
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
@@ -31,7 +31,7 @@ namespace AppQuizApi.Services
 
         public Task<bool> UpdatePassword(ChangePasswordDto changePasswordDto)
         {
-           return _userRepository.UpdatePassword(changePasswordDto);
+            return _userRepository.UpdatePassword(changePasswordDto);
         }
 
         public Task<List<Avatar>> GetAvatars()
