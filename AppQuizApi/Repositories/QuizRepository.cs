@@ -128,7 +128,10 @@ namespace AppQuizApi.Repositories
         [Authorize]
         public async Task<bool> DeleteQuestion(int questionId)
         {
-            var questionToDelete = await _context.Questions.Where(x => x.Id == questionId).FirstOrDefaultAsync();
+            var questionToDelete = await _context.Questions.
+            Include(x => x.Answers).
+            Where(x => x.Id == questionId).
+            FirstOrDefaultAsync();
             if (questionToDelete != null)
             {
                 _context.Questions.Remove(questionToDelete);
