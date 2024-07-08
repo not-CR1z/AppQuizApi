@@ -71,7 +71,11 @@ namespace AppQuizApi.Repositories
         [Authorize]
         public async Task DeleteQuiz(int quizId)
         {
-            var quizToDelete = _context.Quizzes.SingleOrDefault(x => x.Id == quizId);
+            var quizToDelete = _context.Quizzes.
+            Include(x => x.Questions)!.
+            ThenInclude(x => x.Answers).
+            Where(x => x.Id == quizId).
+            FirstOrDefault();
             if (quizToDelete != null)
             {
                 _context.Quizzes.Remove(quizToDelete);
